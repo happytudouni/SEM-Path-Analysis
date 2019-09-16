@@ -1,0 +1,96 @@
+Title: 
+  Path Analysis June 2019
+  
+  
+Data:
+   File is /Users/happytudouni/Downloads/MPlus/theta_revision1.dat;
+
+Variable:
+  names  = 
+sid 
+lpba ! This is the whole brain FC value;
+FF
+FT
+FP
+FO
+TT
+TP
+TO
+PP
+PO
+OO
+haz
+waz
+whz
+haz2 ! this is the average haz value between 2.5 and 3 years, which was used the current study;
+waz2
+whz2
+poverty ! SES = poverty*(-1);
+famcare ! family caregiving;
+sumfsc
+viq
+piq
+fsiq    ! full-scale IQ;
+sumfsc5
+viq5
+piq5
+fsiq5
+headcircum ! head circumference;
+  ;
+  
+    
+  idvariable is sid;
+  
+  missing are all (-99);
+  
+  
+ 
+ !USEOBSERVATIONS = sid ne 1111;
+  
+  
+usevariables = 
+
+famcare
+fsiq
+poverty
+haz2
+lpba
+headcircum
+;
+  
+
+Analysis:
+    estimator is ML;
+    type = general;
+    iter = 10000;
+    bootstrap = 5000;
+  
+   
+  
+MODEL:
+
+lpba on poverty haz2 headcircum;
+
+fsiq on lpba haz2 poverty famcare headcircum;
+
+fsiq on haz2;
+
+
+!!!
+
+
+
+
+Model indirect:
+! here we model the meditaion
+fsiq ind lpba haz2;
+fsiq ind haz2;
+
+  OUTPUT:
+      SAMPSTAT TECH1 TECH4 STANDARDIZED CINTERVAL(BCBOOTSTRAP);
+
+
+
+Savedata:
+
+output:
